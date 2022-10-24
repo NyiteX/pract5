@@ -53,7 +53,7 @@ class My_Copy
     {
         Directory.CreateDirectory(pathSource + reserv);
         Directory.CreateDirectory(pathSource + "\\Log");
-        File.Create(pathSource + "\\Log\\Log.txt");
+        File.Create(pathSource + "\\Log\\Log.txt");  // из-за этого создания файла крашится или просто не записывает
     }
     public void ArchiveFiles()
     {
@@ -86,7 +86,7 @@ class My_Copy
         try
         {
             if (File.Exists(pathSource + "\\Log\\Log.txt"))
-                await File.AppendAllTextAsync(pathSource + "\\Log\\Log.txt", Log);
+                await File.AppendAllTextAsync(pathSource + "\\Log\\Log.txt", Log); //запись в файл
         }
         catch(Exception e) { Console.WriteLine(e.Message); }
     }
