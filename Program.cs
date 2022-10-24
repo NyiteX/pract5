@@ -96,7 +96,7 @@ class My_Copy
     }
     ~My_Copy()
     {
-        Console.WriteLine("Destructor");
+        Console.WriteLine("Destructor");  // Деструктор не запускается почему-то =\
         Del();
     }
 }
