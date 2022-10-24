@@ -51,9 +51,12 @@ class My_Copy
     }
     public void CreateFolder()
     {
-        Directory.CreateDirectory(pathSource + reserv);
-        Directory.CreateDirectory(pathSource + "\\Log");
-        File.Create(pathSource + "\\Log\\Log.txt");  // из-за этого создания файла крашится или просто не записывает
+        if (!Directory.Exists(pathSource + reserv))
+            Directory.CreateDirectory(pathSource + reserv);
+        if (!Directory.Exists(pathSource + "\\Log"))
+            Directory.CreateDirectory(pathSource + "\\Log");
+        //if (!File.Exists(pathSource + "\\Log\\Log.txt"))
+            /*File.Create(pathSource + "\\Log\\Log.txt");*/  // из-за этого создания файла крашится или просто не записывает
     }
     public void ArchiveFiles()
     {
@@ -79,20 +82,25 @@ class My_Copy
             }
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
+        Log += '\n';
         SaveLog();
     }
     public async void SaveLog()
     {        
         try
         {
-            if (File.Exists(pathSource + "\\Log\\Log.txt"))
-                await File.AppendAllTextAsync(pathSource + "\\Log\\Log.txt", Log); //запись в файл
+            StreamWriter sw = new StreamWriter(File.Open(pathSource + "\\Log\\Log.txt", FileMode.Append)); // эта запись в файл не глючит + создает файл, если нужно
+            sw.WriteLine(Log);
+            sw.Close();
+            //if (File.Exists(pathSource + "\\Log\\Log.txt"))
+            //    await File.AppendAllTextAsync(pathSource + "\\Log\\Log.txt", Log); //запись в файл
         }
         catch(Exception e) { Console.WriteLine(e.Message); }
     }
     public void Del()
     {
         Directory.Delete(pathSource + reserv, true);
+        Console.WriteLine("Временная папка удалена.\n");
     }
     ~My_Copy()
     {
